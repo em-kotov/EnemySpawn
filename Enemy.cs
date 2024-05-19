@@ -2,25 +2,27 @@
 
 public class Enemy : MonoBehaviour
 {
-    private Vector3 _direction;
+    private Target _target;
     private float _speed;
 
     private void Update()
     {
         MoveTowardsDirection();
-        transform.LookAt(_direction);
+        transform.LookAt(_target.transform);
     }
 
     private void MoveTowardsDirection()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _direction, _speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position,
+                                                 _target.transform.position,
+                                                 _speed * Time.deltaTime);
     }
 
-    public void SetParameters(Vector3 direction, float speed)
+    public void SetParameters(Target target, float speed)
     {
         if (speed > 0)
             _speed = speed;
 
-        _direction = direction;
+        _target = target;
     }
 }

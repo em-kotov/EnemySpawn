@@ -4,23 +4,14 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private float _repeatRate;
-    [SerializeField] private float _speed;
-    [SerializeField] private Enemy _enemyPrefab;
-    [SerializeField] private Transform[] _spawnPoints;
-    [SerializeField] private Transform _target;
+    [SerializeField] private SpawnPoint[] _spawnPoints;
 
     private void Start()
     {
         StartCoroutine(SpawnEnemies(_repeatRate));
     }
 
-    private void GenerateEnemy()
-    {
-        Enemy enemy = Instantiate(_enemyPrefab, GetRandomSpawnPosition());
-        enemy.SetParameters(_target.position, _speed);
-    }
-
-    private Transform GetRandomSpawnPosition()
+    private SpawnPoint GetRandomSpawnPoint()
     {
         return _spawnPoints[Random.Range(0, _spawnPoints.Length)];
     }
@@ -31,7 +22,7 @@ public class EnemySpawner : MonoBehaviour
 
         while (enabled)
         {
-            GenerateEnemy();
+            GetRandomSpawnPoint().GenerateEnemy();
             yield return wait;
         }
     }
